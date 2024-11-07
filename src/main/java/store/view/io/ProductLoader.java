@@ -23,16 +23,12 @@ public class ProductLoader {
     public static List<Product> loadProducts() throws FileException {
         try (BufferedReader br = new BufferedReader(new FileReader(PATH_PRODUCT))) {
             return br.lines()
-                    .filter(line -> !isHeader(line))
+                    .filter(line -> !FileLoaderUtil.isHeader(line, HEADER_PREFIX))
                     .map(ProductLoader::parseProduct)
                     .collect(Collectors.toList());
         } catch (IOException | NumberFormatException e) {
             throw new FileException(INVALID_FILE_READ.getMessage());
         }
-    }
-
-    private static boolean isHeader(String line) {
-        return line.startsWith(HEADER_PREFIX);
     }
 
     private static Product parseProduct(String line) {
