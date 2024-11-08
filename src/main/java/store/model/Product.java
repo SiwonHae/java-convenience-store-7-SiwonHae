@@ -34,8 +34,16 @@ public class Product {
         }
     }
 
+    public void decreaseQuantity(int quantity) {
+        this.quantity -= quantity;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     @Override

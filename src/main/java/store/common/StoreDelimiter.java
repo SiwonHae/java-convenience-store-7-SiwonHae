@@ -3,7 +3,9 @@ package store.common;
 public enum StoreDelimiter {
     COMMA(","),
     HYPHEN("-"),
-    WHITESPACE(" ");
+    WHITESPACE(" "),
+    BRACKET_LEFT("["),
+    BRACKET_RIGHT("]");
 
     private final String value;
 

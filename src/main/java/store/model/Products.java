@@ -12,19 +12,21 @@ public record Products(List<Product> products) {
         this.products = new ArrayList<>(products);
     }
 
-    public void validateProductName(String name) {
-        if (!containsProductName(name)) {
-            throw new InvalidInputException(NONE_PRODUCT_NAME.getMessage());
-        }
+    public void decreaseProductStock(String productName, int quantity) {
+        Product product = findProductByName(productName);
+        product.validateStock(quantity);
+        product.decreaseQuantity(quantity);
+    }
+
+    private Product findProductByName(String productName) {
+        return products.stream()
+                .filter(product -> product.getName().equals(productName))
+                .findFirst()
+                .orElseThrow(() -> new InvalidInputException(NONE_PRODUCT_NAME.getMessage()));
     }
 
     @Override
     public List<Product> products() {
         return Collections.unmodifiableList(products);
-    }
-
-    private boolean containsProductName(String name) {
-        return products.stream()
-                .anyMatch(product -> product.getName().equals(name));
     }
 }
