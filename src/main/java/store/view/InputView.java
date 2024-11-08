@@ -6,8 +6,8 @@ public class InputView {
     private InputView() {
     }
 
-    public static String readItem() {
-        OutputView.printReadItem();
+    public static String readProduct() {
+        OutputView.printReadProduct();
         return Console.readLine();
     }
 }
