@@ -5,11 +5,9 @@ import static store.common.StoreDelimiter.WHITESPACE;
 import static store.common.StoreRule.NONE_STOCK;
 import static store.common.StoreRule.UNIT_COUNT;
 import static store.common.StoreRule.UNIT_PRICE;
-import static store.validator.ValidationMessage.EXCEED_STOCK_QUANTITY;
 
 import java.text.NumberFormat;
 import java.util.Locale;
-import store.exception.InvalidInputException;
 
 public class Product {
     private static final String NULL = "null";
@@ -19,19 +17,13 @@ public class Product {
     private final String name;
     private final int price;
     private int quantity;
-    private final String promotion;
+    private Promotion promotion;
 
-    public Product(String name, int price, int quantity, String promotion) {
+    public Product(String name, int price, int quantity, Promotion promotion) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.promotion = promotion;
-    }
-
-    public void validateStock(int quantity) {
-        if (this.quantity < quantity) {
-            throw new InvalidInputException(EXCEED_STOCK_QUANTITY.getMessage());
-        }
     }
 
     public void decreaseQuantity(int quantity) {
@@ -44,6 +36,14 @@ public class Product {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Product {
     }
 
     private String getPromotionInfo() {
-        if (promotion != null && !promotion.equals(NULL)) {
+        if (promotion != null && !promotion.getName().equals("null")) {
             return WHITESPACE.getValue() + promotion;
         }
         return EMPTY;

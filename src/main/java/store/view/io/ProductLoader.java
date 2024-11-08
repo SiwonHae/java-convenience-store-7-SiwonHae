@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import store.exception.FileException;
 import store.model.Product;
+import store.model.Promotion;
 
 public class ProductLoader {
     private static final String PATH_PRODUCT = "src/main/resources/products.md";
@@ -33,13 +34,13 @@ public class ProductLoader {
 
     private static Product parseProduct(String line) {
         String[] tokens = line.split(COMMA.getValue());
-
         String name = tokens[NAME_INDEX];
         int price = parseInteger(tokens[PRICE_INDEX]);
         int quantity = parseInteger(tokens[QUANTITY_INDEX]);
-        String promotion = null;
-        if (tokens.length > PROMOTION_INDEX) {
-            promotion = tokens[PROMOTION_INDEX];
+        String promotionName = tokens[PROMOTION_INDEX];
+        Promotion promotion = null;
+        if (!promotionName.equals("null")) {
+            promotion = new Promotion(promotionName);
         }
         return new Product(name, price, quantity, promotion);
     }
