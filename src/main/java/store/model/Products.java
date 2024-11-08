@@ -25,6 +25,6 @@ public record Products(List<Product> products) {
 
     private boolean containsProductName(String name) {
         return products.stream()
-                .anyMatch(product -> product.name().equals(name));
+                .anyMatch(product -> product.getName().equals(name));
     }
 }

@@ -11,15 +11,31 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import store.exception.InvalidInputException;
 
-public record Product(String name, int price, int quantity, String promotion) {
+public class Product {
     private static final String NULL = "null";
     private static final int NONE = 0;
     private static final String EMPTY = "";
+
+    private final String name;
+    private final int price;
+    private int quantity;
+    private final String promotion;
+
+    public Product(String name, int price, int quantity, String promotion) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.promotion = promotion;
+    }
 
     public void validateStock(int quantity) {
         if (this.quantity < quantity) {
             throw new InvalidInputException(EXCEED_STOCK_QUANTITY.getMessage());
         }
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
