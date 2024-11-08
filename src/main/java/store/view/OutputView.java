@@ -1,5 +1,6 @@
 package store.view;
 
+import static store.view.ViewMessage.INPUT_BUY_ITEM;
 import static store.view.ViewMessage.PRINT_WELCOME;
 
 import java.util.List;
@@ -18,6 +19,11 @@ public class OutputView {
         for (Product product : products) {
             printMessage(product.toString());
         }
+    }
+
+    public static void printReadItem() {
+        printMessage();
+        printMessage(INPUT_BUY_ITEM.getMessage());
     }
 
     public static void printErrorMessage(String message) {
