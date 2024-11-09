@@ -65,7 +65,6 @@ public class ProductLoader {
         Promotion promotion = null;
         if (!promotionName.equals("null")) {
             promotion = new Promotion(promotionName);
-            return new Product(name, price, quantity, promotion);
         }
         return new Product(name, price, quantity, promotion);
     }
