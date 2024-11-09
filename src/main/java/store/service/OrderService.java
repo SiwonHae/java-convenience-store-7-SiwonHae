@@ -53,15 +53,13 @@ public class OrderService {
         int quantity = orderProduct.getQuantity();
         orderValidator.validate(promotionProduct, nonPromotionProduct, quantity);
 
-        int processedQuantity = processPromotionStock(promotionProduct, quantity,
-                orderProduct.getProductName(), promotionInfos);
+        int processedQuantity = processPromotionStock(promotionProduct, quantity, promotionInfos);
         processNonPromotionStock(nonPromotionProduct, processedQuantity, promotionProduct);
 
         addOrderInfo(orderInfos, orderProduct, nonPromotionProduct);
     }
 
-    private int processPromotionStock(Product promotionProduct, int quantity,
-                                      String productName, List<PromotionInfo> promotionInfos) {
+    private int processPromotionStock(Product promotionProduct, int quantity, List<PromotionInfo> promotionInfos) {
         int decreasedQuantity = decreasePromotionStock(promotionProduct, quantity);
         if (quantity == decreasedQuantity) {
             return quantity;
@@ -69,14 +67,14 @@ public class OrderService {
         int actualQuantity = quantity - decreasedQuantity;
         Promotion promotion = promotionProduct.getPromotion();
         int bonusQuantity = promotion.calculateBonusQuantity(actualQuantity);
-        addPromotionInfo(promotionProduct, bonusQuantity, productName, promotionInfos);
+        addPromotionInfo(promotionProduct, bonusQuantity, promotionInfos);
         return decreasedQuantity;
     }
 
-    private void addPromotionInfo(Product promotionProduct, int bonusQuantity,
-                                  String productName, List<PromotionInfo> promotionInfos) {
+    private void addPromotionInfo(Product promotionProduct, int bonusQuantity, List<PromotionInfo> promotionInfos) {
         if (bonusQuantity > 0) {
-            promotionInfos.add(new PromotionInfo(productName, bonusQuantity, promotionProduct.getPrice()));
+            promotionInfos.add(
+                    new PromotionInfo(promotionProduct.getName(), bonusQuantity, promotionProduct.getPrice()));
         }
     }
 
