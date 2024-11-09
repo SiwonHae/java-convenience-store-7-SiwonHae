@@ -10,7 +10,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Product {
-    private static final String NULL = "null";
     private static final int NONE = 0;
     private static final String EMPTY = "";
 
@@ -40,6 +39,10 @@ public class Product {
 
     public Promotion getPromotion() {
         return promotion;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     public void setPromotion(Promotion promotion) {

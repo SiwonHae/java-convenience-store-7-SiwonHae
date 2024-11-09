@@ -23,6 +23,7 @@ public record Products(List<Product> products) {
                 .orElse(null);
     }
 
+    @Override
     public List<Product> products() {
         return Collections.unmodifiableList(products);
     }
