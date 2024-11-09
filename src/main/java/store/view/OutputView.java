@@ -8,6 +8,7 @@ import static store.view.ViewMessage.RECEIPT_DIVIDER;
 import static store.view.ViewMessage.RECEIPT_INFO_FORMAT;
 import static store.view.ViewMessage.RECEIPT_INFO_HEADER_FORMAT;
 import static store.view.ViewMessage.RECEIPT_PREFIX;
+import static store.view.ViewMessage.RECEIPT_PRICE_FORMAT;
 import static store.view.ViewMessage.RECEIPT_PROMOTION;
 import static store.view.ViewMessage.RECEIPT_PROMOTION_FORMAT;
 
@@ -85,6 +86,7 @@ public class OutputView {
         printMessage(RECEIPT_DIVIDER.getMessage());
         printMessage(RECEIPT_INFO_FORMAT.getMessage(), TOTAL_PRICE, receipt.getTotalQuantity(),
                 receipt.priceInfo().totalPrice());
+        printMessage(RECEIPT_PRICE_FORMAT.getMessage(), PROMOTION_DISCOUNT, receipt.getTotalPromotionPrice());
     }
 
     public static void printErrorMessage(String message) {

@@ -8,9 +8,10 @@ public enum ViewMessage {
     RECEIPT_PREFIX("==============W 편의점================"),
     RECEIPT_INFO_HEADER_FORMAT("%-15s%-6s%10s"),
     RECEIPT_INFO_FORMAT("%-15s%-6d%,10d"),
-    RECEIPT_PROMOTION("=============증	정==============="),
-    RECEIPT_PROMOTION_FORMAT("%-15s%-6s"),
-    RECEIPT_DIVIDER("====================================");
+    RECEIPT_PROMOTION("=============증\t정==============="),
+    RECEIPT_PROMOTION_FORMAT("%-15s%-6d"),
+    RECEIPT_DIVIDER("===================================="),
+    RECEIPT_PRICE_FORMAT("%-15s%,16d");
 
     private final String message;
 

@@ -8,4 +8,10 @@ public record Receipt(List<OrderInfo> orderInfo, List<PromotionInfo> promotionIn
                 .mapToInt(OrderInfo::quantity)
                 .sum();
     }
+
+    public int getTotalPromotionPrice() {
+        return promotionInfo.stream()
+                .mapToInt(PromotionInfo::price)
+                .sum() * -1;
+    }
 }
