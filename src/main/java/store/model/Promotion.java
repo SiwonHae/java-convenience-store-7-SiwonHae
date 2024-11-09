@@ -51,6 +51,20 @@ public class Promotion {
         return remainder == buy;
     }
 
+    public int calculateNonPromotionQuantity(int orderQuantity, int promotionQuantity) {
+        if (buy == 0 || get == 0) {
+            return orderQuantity;
+        }
+
+        int stockSet = promotionQuantity / (buy + get);
+
+        if (orderQuantity >= promotionQuantity) {
+            return orderQuantity - (buy + get) * stockSet;
+        }
+
+        return 0;
+    }
+
     public String getName() {
         return name;
     }

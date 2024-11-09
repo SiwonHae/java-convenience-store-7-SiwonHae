@@ -33,6 +33,7 @@ public class OrderService {
         for (OrderProduct orderProduct : orderProducts) {
             Product promotionProduct = products.findProductWithPromotion(orderProduct.getProductName());
             Product nonPromotionProduct = products.findProductWithoutPromotion(orderProduct.getProductName());
+
             requestPromotion(orderProduct, promotionProduct);
             processOrder(orderProduct, promotionProduct, nonPromotionProduct, orderInfos, promotionInfos);
         }
@@ -40,9 +41,11 @@ public class OrderService {
     }
 
     private void requestPromotion(OrderProduct orderProduct, Product promotionProduct) {
-        if (promotionProduct.getPromotion().calculateQuantityForPromotion(orderProduct.getQuantity())
+        if (promotionProduct != null && promotionProduct.getPromotion()
+                .calculateQuantityForPromotion(orderProduct.getQuantity())
                 && isPromotionActive(promotionProduct)) {
-            if (choicePromotion(orderProduct.getProductName())) {
+            if (promotionProduct.getQuantity() > orderProduct.getQuantity() && choicePromotion(
+                    orderProduct.getProductName())) {
                 orderProduct.increaseQuantity();
             }
         }
@@ -60,15 +63,34 @@ public class OrderService {
     }
 
     private int processPromotionStock(Product promotionProduct, int quantity, List<PromotionInfo> promotionInfos) {
-        int decreasedQuantity = decreasePromotionStock(promotionProduct, quantity);
-        if (quantity == decreasedQuantity) {
-            return quantity;
+        int shortageQuantity = processShortageQuantity(promotionProduct, quantity);
+        int decreasedQuantity = decreasePromotionStock(promotionProduct, shortageQuantity);
+        if (shortageQuantity == decreasedQuantity) {
+            return shortageQuantity;
         }
-        int actualQuantity = quantity - decreasedQuantity;
+        int actualQuantity = shortageQuantity - decreasedQuantity;
         Promotion promotion = promotionProduct.getPromotion();
         int bonusQuantity = promotion.calculateBonusQuantity(actualQuantity);
         addPromotionInfo(promotionProduct, bonusQuantity, promotionInfos);
         return decreasedQuantity;
+    }
+
+    private int processShortageQuantity(Product promotionProduct, int quantity) {
+        if (promotionProduct != null && quantity >= promotionProduct.getQuantity()) {
+            int shortageQuantity = promotionProduct.getPromotion()
+                    .calculateNonPromotionQuantity(quantity, promotionProduct.getQuantity());
+            if (!choiceRegularPrice(promotionProduct.getName(), shortageQuantity)) {
+                quantity -= shortageQuantity;
+            }
+        }
+
+        return quantity;
+    }
+
+    private boolean choiceRegularPrice(String productName, int shortageQuantity) {
+        String choice = InputView.readShortageStockChoice(productName, shortageQuantity);
+        promotionChoiceValidator.validate(choice);
+        return choice.equals(YES.getValue());
     }
 
     private void addPromotionInfo(Product promotionProduct, int bonusQuantity, List<PromotionInfo> promotionInfos) {

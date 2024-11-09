@@ -15,4 +15,9 @@ public class InputView {
         OutputView.printReadPromotionChoice(productName);
         return Console.readLine();
     }
+
+    public static String readShortageStockChoice(String productName, int shortageQuantity) {
+        OutputView.printReadShortageStockChoice(productName, shortageQuantity);
+        return Console.readLine();
+    }
 }

@@ -2,6 +2,7 @@ package store.view;
 
 import static store.view.ViewMessage.INPUT_BUY_PRODUCT;
 import static store.view.ViewMessage.INPUT_PROMOTION_CHOICE;
+import static store.view.ViewMessage.INPUT_SHORTAGE_STOCK_CHOICE;
 import static store.view.ViewMessage.PRINT_WELCOME;
 import static store.view.ViewMessage.RECEIPT_DIVIDER;
 import static store.view.ViewMessage.RECEIPT_INFO_FORMAT;
@@ -46,6 +47,11 @@ public class OutputView {
     public static void printReadPromotionChoice(String productName) {
         printMessage();
         printMessage(INPUT_PROMOTION_CHOICE.getMessage(), productName);
+    }
+
+    public static void printReadShortageStockChoice(String productName, int shortageQuantity) {
+        printMessage();
+        printMessage(INPUT_SHORTAGE_STOCK_CHOICE.getMessage(), productName, shortageQuantity);
     }
 
     public static void printReceipt(Receipt receipt) {
