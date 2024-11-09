@@ -4,11 +4,28 @@ import static store.validator.ValidationMessage.INVALID_INPUT;
 
 import store.exception.InvalidInputException;
 
-public record OrderProduct(String productName, int quantity) {
+public class OrderProduct {
+    private final String productName;
+    private int quantity;
+
     private static final int MIN_QUANTITY = 1;
 
-    public OrderProduct {
+    public OrderProduct(String productName, int quantity) {
+        this.productName = productName;
+        this.quantity = quantity;
         validateMinQuantity(quantity);
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void increaseQuantity() {
+        this.quantity++;
     }
 
     private void validateMinQuantity(int quantity) {

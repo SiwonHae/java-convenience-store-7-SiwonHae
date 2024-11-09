@@ -32,9 +32,9 @@ class OrderValidatorTest {
         List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 30));
 
         // when
-        Product promotionProduct = products.findProductWithPromotion(orderProducts.get(0).productName());
-        Product nonPromotionProduct = products.findProductWithoutPromotion(orderProducts.get(0).productName());
-        int quantity = orderProducts.get(0).quantity();
+        Product promotionProduct = products.findProductWithPromotion(orderProducts.get(0).getProductName());
+        Product nonPromotionProduct = products.findProductWithoutPromotion(orderProducts.get(0).getProductName());
+        int quantity = orderProducts.get(0).getQuantity();
 
         // then
         assertThrows(IllegalArgumentException.class,

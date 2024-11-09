@@ -3,7 +3,9 @@ package store.common;
 public enum StoreRule {
     UNIT_PRICE("원"),
     UNIT_COUNT("개"),
-    NONE_STOCK("재고 없음");
+    NONE_STOCK("재고 없음"),
+    YES("Y"),
+    NO("N");
 
     private final String value;
 

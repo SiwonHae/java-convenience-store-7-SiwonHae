@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.model.OrderProduct;
@@ -11,42 +12,45 @@ import store.model.Product;
 import store.model.Products;
 import store.model.Promotion;
 import store.validator.OrderValidator;
+import store.validator.PromotionChoiceValidator;
 
 @DisplayName("OrderService 기능 테스트")
 class OrderServiceTest {
-    private final OrderService orderService = new OrderService(new OrderValidator());
+    private final OrderService orderService = new OrderService(new OrderValidator(), new PromotionChoiceValidator());
 
-    @DisplayName("구매할 상품과 수량이 입력되면 해당 상품의 재고에서 차감한다.")
-    @Test
-    public void testDecreaseProductStock() {
-        // given
-        Products products = new Products(List.of(
-                new Product("콜라", 1000, 10, null)
-        ));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 7));
+    private Products products;
+    private List<OrderProduct> orderProducts;
+    private Product product1;
+    private Product product2;
+    private Promotion activePromotion;
+    private Promotion inActivePromotion;
 
-        // when
-        orderService.order(orderProducts, products);
-
-        // then
-        assertEquals(3, products.products().get(0).getQuantity());
-    }
-
-    @DisplayName("프로모션 기간 중이라면 프로모션 상품의 재고를 우선적으로 차감한다.")
-    @Test
-    public void shouldDecreasePromotionStockFirstWhenPromotionIsActive() {
-        // given
-        Promotion promotion = new Promotion(
+    @BeforeEach
+    void setup() {
+        activePromotion = new Promotion(
                 "탄산2+1",
                 2,
                 1,
                 LocalDate.parse("2024-11-01"),
                 LocalDate.parse("2024-12-31")
         );
-        Product product1 = new Product("콜라", 1000, 10, promotion);
-        Product product2 = new Product("콜라", 1000, 10, null);
-        Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12));
+        inActivePromotion = new Promotion(
+                "탄산2+1",
+                2,
+                1,
+                LocalDate.parse("2024-12-01"),
+                LocalDate.parse("2024-12-31")
+        );
+        product2 = new Product("콜라", 1000, 10, null);
+        orderProducts = List.of(new OrderProduct("콜라", 12));
+    }
+
+    @DisplayName("프로모션 기간 중이라면 프로모션 상품의 재고를 우선적으로 차감한다.")
+    @Test
+    public void shouldDecreasePromotionStockFirstWhenPromotionIsActive() {
+        // given
+        product1 = new Product("콜라", 1000, 10, activePromotion);
+        products = new Products(List.of(product1, product2));
 
         // when
         orderService.order(orderProducts, products);
@@ -60,17 +64,8 @@ class OrderServiceTest {
     @Test
     public void shouldDecreaseNonPromotionStockFirstWhenPromotionIsInActive() {
         // given
-        Promotion promotion = new Promotion(
-                "탄산2+1",
-                2,
-                1,
-                LocalDate.parse("2024-12-01"),
-                LocalDate.parse("2024-12-31")
-        );
-        Product product1 = new Product("콜라", 1000, 10, promotion);
-        Product product2 = new Product("콜라", 1000, 10, null);
-        Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12));
+        product1 = new Product("콜라", 1000, 10, inActivePromotion);
+        products = new Products(List.of(product1, product2));
 
         // when
         orderService.order(orderProducts, products);

@@ -10,4 +10,9 @@ public class InputView {
         OutputView.printReadProduct();
         return Console.readLine();
     }
+
+    public static String readPromotionChoice(String productName) {
+        OutputView.printReadPromotionChoice(productName);
+        return Console.readLine();
+    }
 }

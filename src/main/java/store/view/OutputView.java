@@ -1,6 +1,7 @@
 package store.view;
 
 import static store.view.ViewMessage.INPUT_BUY_PRODUCT;
+import static store.view.ViewMessage.INPUT_PROMOTION_CHOICE;
 import static store.view.ViewMessage.PRINT_WELCOME;
 import static store.view.ViewMessage.RECEIPT_DIVIDER;
 import static store.view.ViewMessage.RECEIPT_INFO_FORMAT;
@@ -40,6 +41,11 @@ public class OutputView {
     public static void printReadProduct() {
         printMessage();
         printMessage(INPUT_BUY_PRODUCT.getMessage());
+    }
+
+    public static void printReadPromotionChoice(String productName) {
+        printMessage();
+        printMessage(INPUT_PROMOTION_CHOICE.getMessage(), productName);
     }
 
     public static void printReceipt(Receipt receipt) {

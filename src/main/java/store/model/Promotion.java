@@ -35,8 +35,20 @@ public class Promotion {
         if (buy == 0 || get == 0 || orderQuantity < buy) {
             return 0;
         }
+        int bonusQuantity = orderQuantity / (buy + get);
+        int remainQuantity = orderQuantity % (buy + get);
+        if (remainQuantity >= buy) {
+            bonusQuantity += get;
+        }
+        return bonusQuantity;
+    }
 
-        return (orderQuantity / buy) * get;
+    public boolean calculateQuantityForPromotion(int orderQuantity) {
+        if (buy == 0 || get == 0) {
+            return false;
+        }
+        int remainder = orderQuantity % (buy + get);
+        return remainder == buy;
     }
 
     public String getName() {
