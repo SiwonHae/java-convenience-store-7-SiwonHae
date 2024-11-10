@@ -25,4 +25,9 @@ public class InputView {
         OutputView.printReadMembershipChoice();
         return Console.readLine();
     }
+
+    public static String readExtraBuy() {
+        OutputView.printReadExtraBuy();
+        return Console.readLine();
+    }
 }

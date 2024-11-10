@@ -144,6 +144,18 @@ public class OrderService {
         }
     }
 
+    public boolean choiceExtraBuy() {
+        while (true) {
+            try {
+                String choice = InputView.readExtraBuy();
+                promotionChoiceValidator.validate(choice);
+                return choice.equals(YES.getValue());
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
     private void processNonPromotionStock(Product nonPromotionProduct, int quantity, Product promotionProduct) {
         int decreasedNonPromotionQuantity = decreaseNonPromotionStock(nonPromotionProduct, quantity);
         decreaseInActivePromotionStock(promotionProduct, decreasedNonPromotionQuantity);

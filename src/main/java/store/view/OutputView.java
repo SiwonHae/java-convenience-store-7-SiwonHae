@@ -2,6 +2,7 @@ package store.view;
 
 import static store.common.StoreDelimiter.HYPHEN;
 import static store.view.ViewMessage.INPUT_BUY_PRODUCT;
+import static store.view.ViewMessage.INPUT_EXTRA_BUY;
 import static store.view.ViewMessage.INPUT_MEMBERSHIP_CHOICE;
 import static store.view.ViewMessage.INPUT_PROMOTION_CHOICE;
 import static store.view.ViewMessage.INPUT_SHORTAGE_STOCK_CHOICE;
@@ -63,6 +64,11 @@ public class OutputView {
     public static void printReadMembershipChoice() {
         printMessage();
         printMessage(INPUT_MEMBERSHIP_CHOICE.getMessage());
+    }
+
+    public static void printReadExtraBuy() {
+        printMessage();
+        printMessage(INPUT_EXTRA_BUY.getMessage());
     }
 
     public static void printReceipt(Receipt receipt) {
