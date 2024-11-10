@@ -15,6 +15,7 @@ import store.model.Receipt;
 import store.validator.OrderValidator;
 import store.validator.PromotionChoiceValidator;
 import store.view.InputView;
+import store.view.OutputView;
 
 public class OrderService {
     private static final int MIN_QUANTITY = 0;
@@ -99,9 +100,15 @@ public class OrderService {
     }
 
     private boolean choiceRegularPrice(String productName, int shortageQuantity) {
-        String choice = InputView.readShortageStockChoice(productName, shortageQuantity);
-        promotionChoiceValidator.validate(choice);
-        return choice.equals(YES.getValue());
+        while (true) {
+            try {
+                String choice = InputView.readShortageStockChoice(productName, shortageQuantity);
+                promotionChoiceValidator.validate(choice);
+                return choice.equals(YES.getValue());
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private void addPromotionInfo(Product promotionProduct, int bonusQuantity, List<PromotionInfo> promotionInfos) {
@@ -114,15 +121,27 @@ public class OrderService {
     }
 
     private boolean choiceMembership() {
-        String choice = InputView.readMembershipChoice();
-        promotionChoiceValidator.validate(choice);
-        return choice.equals(YES.getValue());
+        while (true) {
+            try {
+                String choice = InputView.readMembershipChoice();
+                promotionChoiceValidator.validate(choice);
+                return choice.equals(YES.getValue());
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private boolean choicePromotion(String productName) {
-        String choice = InputView.readPromotionChoice(productName);
-        promotionChoiceValidator.validate(choice);
-        return choice.equals(YES.getValue());
+        while (true) {
+            try {
+                String choice = InputView.readPromotionChoice(productName);
+                promotionChoiceValidator.validate(choice);
+                return choice.equals(YES.getValue());
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private void processNonPromotionStock(Product nonPromotionProduct, int quantity, Product promotionProduct) {
