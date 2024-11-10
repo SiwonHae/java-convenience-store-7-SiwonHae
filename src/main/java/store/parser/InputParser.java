@@ -23,6 +23,10 @@ public class InputParser {
         return LocalDate.parse(input);
     }
 
+    public static Double parseDouble(String input) {
+        return Double.parseDouble(input);
+    }
+
     public static List<OrderProduct> parseOrderProducts(String input) {
         String[] productStrings = splitOrderProducts(input);
         return createOrderProducts(productStrings);

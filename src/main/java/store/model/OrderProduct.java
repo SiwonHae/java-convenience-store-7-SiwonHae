@@ -28,6 +28,10 @@ public class OrderProduct {
         this.quantity++;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     private void validateMinQuantity(int quantity) {
         if (quantity < MIN_QUANTITY) {
             throw new InvalidInputException(INVALID_INPUT.getMessage());

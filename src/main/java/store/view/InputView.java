@@ -20,4 +20,9 @@ public class InputView {
         OutputView.printReadShortageStockChoice(productName, shortageQuantity);
         return Console.readLine();
     }
+
+    public static String readMembershipChoice() {
+        OutputView.printReadMembershipChoice();
+        return Console.readLine();
+    }
 }

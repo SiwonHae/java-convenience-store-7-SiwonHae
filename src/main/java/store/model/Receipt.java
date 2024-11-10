@@ -11,7 +11,15 @@ public record Receipt(List<OrderInfo> orderInfo, List<PromotionInfo> promotionIn
 
     public int getTotalPromotionPrice() {
         return promotionInfo.stream()
-                .mapToInt(PromotionInfo::price)
-                .sum() * -1;
+                .mapToInt(info -> info.bonusQuantity() * info.price())
+                .sum();
+    }
+
+    public int getMembershipPrice() {
+        return priceInfo.membershipPrice();
+    }
+
+    public int getPayPrice() {
+        return priceInfo.payPrice();
     }
 }

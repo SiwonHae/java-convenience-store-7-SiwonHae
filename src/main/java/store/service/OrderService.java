@@ -33,49 +33,60 @@ public class OrderService {
         for (OrderProduct orderProduct : orderProducts) {
             Product promotionProduct = products.findProductWithPromotion(orderProduct.getProductName());
             Product nonPromotionProduct = products.findProductWithoutPromotion(orderProduct.getProductName());
-
-            requestPromotion(orderProduct, promotionProduct);
-            processOrder(orderProduct, promotionProduct, nonPromotionProduct, orderInfos, promotionInfos);
+            boolean addPromotion = requestPromotion(orderProduct, promotionProduct);
+            processOrder(orderProduct, promotionProduct, nonPromotionProduct, orderInfos, promotionInfos, addPromotion);
         }
-        return new Receipt(orderInfos, promotionInfos, new PriceInfo(orderInfos, promotionInfos));
+        boolean choiceMembership = choiceMembership();
+        return new Receipt(orderInfos, promotionInfos, new PriceInfo(orderInfos, promotionInfos, choiceMembership));
     }
 
-    private void requestPromotion(OrderProduct orderProduct, Product promotionProduct) {
-        if (promotionProduct != null && promotionProduct.getPromotion()
-                .calculateQuantityForPromotion(orderProduct.getQuantity())
-                && isPromotionActive(promotionProduct)) {
-            if (promotionProduct.getQuantity() > orderProduct.getQuantity() && choicePromotion(
-                    orderProduct.getProductName())) {
-                orderProduct.increaseQuantity();
+    private boolean requestPromotion(OrderProduct orderProduct, Product promotionProduct) {
+        boolean addPromotion = true;
+        if (isPromotionActive(promotionProduct) && promotionProduct.getPromotion()
+                .calculateQuantityForPromotion(orderProduct.getQuantity())) {
+            if (!(promotionProduct.getQuantity() > orderProduct.getQuantity() &&
+                    choicePromotion(orderProduct.getProductName()))) {
+                return false;
             }
+            orderProduct.increaseQuantity();
         }
+        return addPromotion;
     }
 
     private void processOrder(OrderProduct orderProduct, Product promotionProduct, Product nonPromotionProduct,
-                              List<OrderInfo> orderInfos, List<PromotionInfo> promotionInfos) {
+                              List<OrderInfo> orderInfos, List<PromotionInfo> promotionInfos, boolean addPromotion) {
         int quantity = orderProduct.getQuantity();
         orderValidator.validate(promotionProduct, nonPromotionProduct, quantity);
 
-        int processedQuantity = processPromotionStock(promotionProduct, quantity, promotionInfos);
+        int processedQuantity = processPromotionStock(promotionProduct, quantity, promotionInfos, orderProduct,
+                addPromotion);
         processNonPromotionStock(nonPromotionProduct, processedQuantity, promotionProduct);
 
         addOrderInfo(orderInfos, orderProduct, nonPromotionProduct);
     }
 
-    private int processPromotionStock(Product promotionProduct, int quantity, List<PromotionInfo> promotionInfos) {
-        int shortageQuantity = processShortageQuantity(promotionProduct, quantity);
+    private int processPromotionStock(Product promotionProduct, int quantity, List<PromotionInfo> promotionInfos,
+                                      OrderProduct orderProduct, boolean addPromotion) {
+        int shortageQuantity = processShortageQuantity(promotionProduct, quantity, orderProduct);
         int decreasedQuantity = decreasePromotionStock(promotionProduct, shortageQuantity);
         if (shortageQuantity == decreasedQuantity) {
             return shortageQuantity;
         }
-        int actualQuantity = shortageQuantity - decreasedQuantity;
-        Promotion promotion = promotionProduct.getPromotion();
-        int bonusQuantity = promotion.calculateBonusQuantity(actualQuantity);
-        addPromotionInfo(promotionProduct, bonusQuantity, promotionInfos);
+        int bonusQuantity = promotionProduct.getPromotion()
+                .calculateBonusQuantity(shortageQuantity - decreasedQuantity);
+        addPromotionInfo(promotionProduct, checkAddPromotion(addPromotion, bonusQuantity), promotionInfos);
         return decreasedQuantity;
     }
 
-    private int processShortageQuantity(Product promotionProduct, int quantity) {
+    private int checkAddPromotion(boolean addPromotion, int bonusQuantity) {
+        if (!addPromotion) {
+            bonusQuantity -= 1;
+        }
+
+        return bonusQuantity;
+    }
+
+    private int processShortageQuantity(Product promotionProduct, int quantity, OrderProduct orderProduct) {
         if (promotionProduct != null && quantity >= promotionProduct.getQuantity()) {
             int shortageQuantity = promotionProduct.getPromotion()
                     .calculateNonPromotionQuantity(quantity, promotionProduct.getQuantity());
@@ -83,7 +94,7 @@ public class OrderService {
                 quantity -= shortageQuantity;
             }
         }
-
+        orderProduct.setQuantity(quantity);
         return quantity;
     }
 
@@ -95,9 +106,17 @@ public class OrderService {
 
     private void addPromotionInfo(Product promotionProduct, int bonusQuantity, List<PromotionInfo> promotionInfos) {
         if (bonusQuantity > 0) {
+            Promotion promotion = promotionProduct.getPromotion();
             promotionInfos.add(
-                    new PromotionInfo(promotionProduct.getName(), bonusQuantity, promotionProduct.getPrice()));
+                    new PromotionInfo(promotionProduct.getName(), bonusQuantity, promotionProduct.getPrice(),
+                            bonusQuantity * (promotion.getBuy() + promotion.getGet())));
         }
+    }
+
+    private boolean choiceMembership() {
+        String choice = InputView.readMembershipChoice();
+        promotionChoiceValidator.validate(choice);
+        return choice.equals(YES.getValue());
     }
 
     private boolean choicePromotion(String productName) {

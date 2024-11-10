@@ -40,6 +40,7 @@ public class Promotion {
         if (remainQuantity >= buy) {
             bonusQuantity += get;
         }
+        
         return bonusQuantity;
     }
 
@@ -67,6 +68,14 @@ public class Promotion {
 
     public String getName() {
         return name;
+    }
+
+    public int getBuy() {
+        return buy;
+    }
+
+    public int getGet() {
+        return get;
     }
 
     @Override

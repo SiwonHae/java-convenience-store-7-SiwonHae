@@ -61,7 +61,7 @@ class OrderServiceTest {
         Products products = new Products(List.of(product1, product2));
         List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12));
 
-        setupInput("Y\n");
+        setupInput("Y\nY\n");
 
         // when
         orderService.order(orderProducts, products);
@@ -80,7 +80,7 @@ class OrderServiceTest {
         Products products = new Products(List.of(product1, product2));
         List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12));
 
-        setupInput("Y\n");
+        setupInput("Y\nY\n");
 
         // when
         orderService.order(orderProducts, products);
@@ -107,7 +107,7 @@ class OrderServiceTest {
         Products products = new Products(List.of(product1, product2));
         List<OrderProduct> orderProducts = List.of(new OrderProduct("오렌지주스", 1));
 
-        setupInput("Y\n");
+        setupInput("Y\nY\n");
 
         // when
         orderService.order(orderProducts, products);
@@ -134,7 +134,7 @@ class OrderServiceTest {
         Products products = new Products(List.of(product1, product2));
         List<OrderProduct> orderProducts = List.of(new OrderProduct("오렌지주스", 1));
 
-        setupInput("N\n");
+        setupInput("N\nY\n");
 
         // when
         orderService.order(orderProducts, products);
@@ -154,7 +154,7 @@ class OrderServiceTest {
         Products products = new Products(List.of(product1, product2));
         List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 10));
 
-        setupInput("Y\n");
+        setupInput("Y\nY\n");
 
         // when
         orderService.order(orderProducts, products);
@@ -174,7 +174,7 @@ class OrderServiceTest {
         Products products = new Products(List.of(product1, product2));
         List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 10));
 
-        setupInput("N\n");
+        setupInput("N\nY\n");
 
         // when
         orderService.order(orderProducts, products);

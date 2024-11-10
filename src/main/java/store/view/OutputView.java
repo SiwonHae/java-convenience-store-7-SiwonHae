@@ -1,14 +1,18 @@
 package store.view;
 
+import static store.common.StoreDelimiter.HYPHEN;
 import static store.view.ViewMessage.INPUT_BUY_PRODUCT;
+import static store.view.ViewMessage.INPUT_MEMBERSHIP_CHOICE;
 import static store.view.ViewMessage.INPUT_PROMOTION_CHOICE;
 import static store.view.ViewMessage.INPUT_SHORTAGE_STOCK_CHOICE;
+import static store.view.ViewMessage.LOCALE_INTEGER;
 import static store.view.ViewMessage.PRINT_WELCOME;
+import static store.view.ViewMessage.RECEIPT_DISCOUNT_FORMAT;
 import static store.view.ViewMessage.RECEIPT_DIVIDER;
 import static store.view.ViewMessage.RECEIPT_INFO_FORMAT;
 import static store.view.ViewMessage.RECEIPT_INFO_HEADER_FORMAT;
+import static store.view.ViewMessage.RECEIPT_PAY_PRICE_FORMAT;
 import static store.view.ViewMessage.RECEIPT_PREFIX;
-import static store.view.ViewMessage.RECEIPT_PRICE_FORMAT;
 import static store.view.ViewMessage.RECEIPT_PROMOTION;
 import static store.view.ViewMessage.RECEIPT_PROMOTION_FORMAT;
 
@@ -19,12 +23,13 @@ import store.model.PromotionInfo;
 import store.model.Receipt;
 
 public class OutputView {
-    private static final String EMPTY = "";
     private static final String NAME = "상품명";
     private static final String QUANTITY = "수량";
     private static final String PRICE = "금액";
     private static final String TOTAL_PRICE = "총구매액";
     private static final String PROMOTION_DISCOUNT = "행사할인";
+    private static final String MEMBERSHIP_DISCOUNT = "멤버십할인";
+    private static final String PAY_PRICE = "내실돈";
 
     private OutputView() {
     }
@@ -55,6 +60,11 @@ public class OutputView {
         printMessage(INPUT_SHORTAGE_STOCK_CHOICE.getMessage(), productName, shortageQuantity);
     }
 
+    public static void printReadMembershipChoice() {
+        printMessage();
+        printMessage(INPUT_MEMBERSHIP_CHOICE.getMessage());
+    }
+
     public static void printReceipt(Receipt receipt) {
         printReceiptHeader();
         printReceiptOrderInfo(receipt);
@@ -78,7 +88,8 @@ public class OutputView {
     private static void printReceiptPromotionInfo(Receipt receipt) {
         printMessage(RECEIPT_PROMOTION.getMessage());
         for (PromotionInfo promotionInfo : receipt.promotionInfo()) {
-            printMessage(RECEIPT_PROMOTION_FORMAT.getMessage(), promotionInfo.productName(), promotionInfo.quantity());
+            printMessage(RECEIPT_PROMOTION_FORMAT.getMessage(), promotionInfo.productName(),
+                    promotionInfo.bonusQuantity());
         }
     }
 
@@ -86,7 +97,11 @@ public class OutputView {
         printMessage(RECEIPT_DIVIDER.getMessage());
         printMessage(RECEIPT_INFO_FORMAT.getMessage(), TOTAL_PRICE, receipt.getTotalQuantity(),
                 receipt.priceInfo().totalPrice());
-        printMessage(RECEIPT_PRICE_FORMAT.getMessage(), PROMOTION_DISCOUNT, receipt.getTotalPromotionPrice());
+        printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), PROMOTION_DISCOUNT,
+                HYPHEN.getValue() + formatInteger(receipt.getTotalPromotionPrice()));
+        printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), MEMBERSHIP_DISCOUNT,
+                HYPHEN.getValue() + formatInteger(receipt.getMembershipPrice()));
+        printMessage(RECEIPT_PAY_PRICE_FORMAT.getMessage(), PAY_PRICE, receipt.getPayPrice());
     }
 
     public static void printErrorMessage(String message) {
@@ -103,5 +118,9 @@ public class OutputView {
 
     private static void printMessage(String format, Object... args) {
         System.out.println(String.format(format, args));
+    }
+
+    private static String formatInteger(Object... args) {
+        return String.format(LOCALE_INTEGER.getMessage(), args);
     }
 }

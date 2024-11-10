@@ -5,7 +5,9 @@ public enum StoreRule {
     UNIT_COUNT("개"),
     NONE_STOCK("재고 없음"),
     YES("Y"),
-    NO("N");
+    NO("N"),
+    MEMBERSHIP_PRICE_LIMIT("8000"),
+    MEMBERSHIP_DISCOUNT_RATE("0.3");
 
     private final String value;
 
