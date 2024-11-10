@@ -1,7 +1,11 @@
 package store;
 
+import store.config.StoreControllerFactory;
+import store.controller.StoreController;
+
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        StoreController storeController = StoreControllerFactory.create();
+        storeController.run();
     }
 }
