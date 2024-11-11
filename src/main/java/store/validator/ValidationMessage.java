@@ -7,7 +7,6 @@ public enum ValidationMessage {
     EXCEED_STOCK_QUANTITY("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요."),
     INVALID_INPUT("잘못된 입력입니다. 다시 입력해 주세요.");
 
-
     private static final String PREFIX = "[ERROR] ";
 
     private final String message;

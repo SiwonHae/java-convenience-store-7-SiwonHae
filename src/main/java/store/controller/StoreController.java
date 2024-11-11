@@ -31,6 +31,17 @@ public class StoreController {
         }
     }
 
+    private Receipt order(Products products) {
+        try {
+            String inputItem = InputView.readProduct();
+            orderProductValidator.validate(inputItem);
+            return storeService.order(parseOrderProducts(inputItem, products), products);
+        } catch (IllegalArgumentException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            return order(products);
+        }
+    }
+
     private void processOrder(Products products) {
         OutputView.printWelcome();
         OutputView.printProductList(products.products());
@@ -40,16 +51,5 @@ public class StoreController {
 
     private Products initializeStore() {
         return storeService.initializeStore();
-    }
-
-    private Receipt order(Products products) {
-        String inputItem = InputView.readProduct();
-        try {
-            orderProductValidator.validate(inputItem);
-            return storeService.order(parseOrderProducts(inputItem, products), products);
-        } catch (IllegalArgumentException e) {
-            OutputView.printErrorMessage(e.getMessage());
-            return order(products);
-        }
     }
 }

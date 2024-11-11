@@ -30,9 +30,7 @@ public class StoreService {
         try {
             List<Product> loadProducts = ProductLoader.loadProducts();
             List<Promotion> loadPromotions = PromotionLoader.loadPromotions();
-
             initializePromotion(loadProducts, loadPromotions);
-
             return new Products(loadProducts);
         } catch (IOException | NumberFormatException e) {
             OutputView.printErrorMessage(e.getMessage());
