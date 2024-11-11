@@ -141,52 +141,30 @@ public class OrderService {
         return bonusQuantity;
     }
 
-    private boolean choicePromotion(String productName) {
-        while (true) {
-            try {
-                String choice = InputView.readPromotionChoice(productName);
-                choiceValidator.validate(choice);
-                return choice.equals(YES.getValue());
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
+    private boolean choiceOption(String choice) {
+        try {
+            choiceValidator.validate(choice);
+            return choice.equals(YES.getValue());
+        } catch (IllegalArgumentException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            return choiceOption(choice);
         }
+    }
+
+    private boolean choicePromotion(String productName) {
+        return choiceOption(InputView.readPromotionChoice(productName));
     }
 
     private boolean choiceRegularPrice(String productName, int shortageQuantity) {
-        while (true) {
-            try {
-                String choice = InputView.readShortageQuantityChoice(productName, shortageQuantity);
-                choiceValidator.validate(choice);
-                return choice.equals(YES.getValue());
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return choiceOption(InputView.readShortageQuantityChoice(productName, shortageQuantity));
     }
 
     private boolean choiceMembership() {
-        while (true) {
-            try {
-                String choice = InputView.readMembershipChoice();
-                choiceValidator.validate(choice);
-                return choice.equals(YES.getValue());
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return choiceOption(InputView.readMembershipChoice());
     }
 
     public boolean choiceExtraBuy() {
-        while (true) {
-            try {
-                String choice = InputView.readExtraBuy();
-                choiceValidator.validate(choice);
-                return choice.equals(YES.getValue());
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return choiceOption(InputView.readExtraBuy());
     }
 
     private boolean isPromotionActive(Product promotionProduct) {
