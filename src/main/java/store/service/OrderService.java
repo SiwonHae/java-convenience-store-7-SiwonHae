@@ -4,6 +4,7 @@ import static store.common.StoreRule.YES;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import store.model.OrderInfo;
 import store.model.OrderProduct;
 import store.model.PriceInfo;
@@ -146,48 +147,31 @@ public class OrderService {
         return bonusQuantity;
     }
 
-    private boolean choicePromotion(String productName) {
+    private boolean choiceOption(Supplier<String> choiceMethod) {
         try {
-            String choice = InputView.readPromotionChoice(productName);
+            String choice = choiceMethod.get();
             choiceValidator.validate(choice);
             return choice.equals(YES.getValue());
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
-            return choicePromotion(productName);
+            return choiceOption(choiceMethod);
         }
+    }
+
+    private boolean choicePromotion(String productName) {
+        return choiceOption(() -> InputView.readPromotionChoice(productName));
     }
 
     private boolean choiceRegularPrice(String productName, int shortageQuantity) {
-        try {
-            String choice = InputView.readShortageQuantityChoice(productName, shortageQuantity);
-            choiceValidator.validate(choice);
-            return choice.equals(YES.getValue());
-        } catch (IllegalArgumentException e) {
-            OutputView.printErrorMessage(e.getMessage());
-            return choiceRegularPrice(productName, shortageQuantity);
-        }
+        return choiceOption(() -> InputView.readShortageQuantityChoice(productName, shortageQuantity));
     }
 
     private boolean choiceMembership() {
-        try {
-            String choice = InputView.readMembershipChoice();
-            choiceValidator.validate(choice);
-            return choice.equals(YES.getValue());
-        } catch (IllegalArgumentException e) {
-            OutputView.printErrorMessage(e.getMessage());
-            return choiceMembership();
-        }
+        return choiceOption(InputView::readMembershipChoice);
     }
 
     public boolean choiceExtraBuy() {
-        try {
-            String choice = InputView.readExtraBuy();
-            choiceValidator.validate(choice);
-            return choice.equals(YES.getValue());
-        } catch (IllegalArgumentException e) {
-            OutputView.printErrorMessage(e.getMessage());
-            return choiceExtraBuy();
-        }
+        return choiceOption(InputView::readExtraBuy);
     }
 
     private boolean isPromotionActive(Product promotionProduct) {
