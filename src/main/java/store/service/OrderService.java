@@ -49,8 +49,9 @@ public class OrderService {
                     addPromotion);
         }
         processNonPromotionQuantity(nonPromotionProduct, remainQuantityAfterPromotion, promotionProduct);
-
-        addOrderInfo(orderInfos, orderProduct, nonPromotionProduct);
+        if (orderProduct.getQuantity() != MIN_QUANTITY) {
+            addOrderInfo(orderInfos, orderProduct, nonPromotionProduct);
+        }
     }
 
     private boolean tryApplyPromotion(OrderProduct orderProduct, Product promotionProduct) {
