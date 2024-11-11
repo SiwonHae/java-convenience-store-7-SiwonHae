@@ -26,32 +26,32 @@ public class ProductLoader {
     private static final int DEFAULT_QUANTITY = 0;
 
     public static List<Product> loadProducts() throws FileException {
-        Map<String, List<Product>> productMap = new LinkedHashMap<>();
+        Map<String, List<Product>> productsCategory = new LinkedHashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(PATH_PRODUCT))) {
             br.lines()
                     .filter(line -> !FileLoaderUtil.isHeader(line, HEADER_PREFIX))
-                    .forEach(line -> addProductToMap(productMap, parseProduct(line)));
+                    .forEach(line -> addProductToMap(productsCategory, parseProduct(line)));
         } catch (IOException | NumberFormatException e) {
             throw new FileException(INVALID_FILE_READ.getMessage());
         }
-        addNonPromotionProduct(productMap);
-        return convertMapToList(productMap);
+        addNonPromotionProduct(productsCategory);
+        return convertMapToList(productsCategory);
     }
 
-    private static void addProductToMap(Map<String, List<Product>> productMap, Product product) {
-        productMap.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
+    private static void addProductToMap(Map<String, List<Product>> productsCategory, Product product) {
+        productsCategory.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
     }
 
-    private static void addNonPromotionProduct(Map<String, List<Product>> productMap) {
-        productMap.entrySet().stream()
+    private static void addNonPromotionProduct(Map<String, List<Product>> productsCategory) {
+        productsCategory.entrySet().stream()
                 .filter(entry -> entry.getValue().stream().noneMatch(product -> product.getPromotion() == null))
                 .forEach(entry -> entry.getValue().add(
                         new Product(entry.getKey(), entry.getValue().getFirst().getPrice(), DEFAULT_QUANTITY, null)
                 ));
     }
 
-    private static List<Product> convertMapToList(Map<String, List<Product>> productMap) {
-        return productMap.values().stream()
+    private static List<Product> convertMapToList(Map<String, List<Product>> productsCategory) {
+        return productsCategory.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
