@@ -12,8 +12,8 @@ import store.model.Products;
 import store.model.Promotion;
 import store.model.PromotionInfo;
 import store.model.Receipt;
+import store.validator.ChoiceValidator;
 import store.validator.OrderValidator;
-import store.validator.PromotionChoiceValidator;
 import store.view.InputView;
 import store.view.OutputView;
 
@@ -21,11 +21,11 @@ public class OrderService {
     private static final int MIN_QUANTITY = 0;
 
     private final OrderValidator orderValidator;
-    private final PromotionChoiceValidator promotionChoiceValidator;
+    private final ChoiceValidator choiceValidator;
 
-    public OrderService(OrderValidator orderValidator, PromotionChoiceValidator promotionChoiceValidator) {
+    public OrderService(OrderValidator orderValidator, ChoiceValidator choiceValidator) {
         this.orderValidator = orderValidator;
-        this.promotionChoiceValidator = promotionChoiceValidator;
+        this.choiceValidator = choiceValidator;
     }
 
     public Receipt order(List<OrderProduct> orderProducts, Products products) {
@@ -104,7 +104,7 @@ public class OrderService {
         while (true) {
             try {
                 String choice = InputView.readShortageStockChoice(productName, shortageQuantity);
-                promotionChoiceValidator.validate(choice);
+                choiceValidator.validate(choice);
                 return choice.equals(YES.getValue());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -125,7 +125,7 @@ public class OrderService {
         while (true) {
             try {
                 String choice = InputView.readMembershipChoice();
-                promotionChoiceValidator.validate(choice);
+                choiceValidator.validate(choice);
                 return choice.equals(YES.getValue());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -137,7 +137,7 @@ public class OrderService {
         while (true) {
             try {
                 String choice = InputView.readPromotionChoice(productName);
-                promotionChoiceValidator.validate(choice);
+                choiceValidator.validate(choice);
                 return choice.equals(YES.getValue());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -149,7 +149,7 @@ public class OrderService {
         while (true) {
             try {
                 String choice = InputView.readExtraBuy();
-                promotionChoiceValidator.validate(choice);
+                choiceValidator.validate(choice);
                 return choice.equals(YES.getValue());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());

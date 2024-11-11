@@ -6,7 +6,7 @@ import static store.validator.ValidationMessage.INVALID_INPUT_FORMAT;
 
 import store.exception.InvalidInputException;
 
-public class PromotionChoiceValidator {
+public class ChoiceValidator {
     public void validate(String choice) {
         validateEmpty(choice);
         validateChoice(choice);
@@ -19,7 +19,7 @@ public class PromotionChoiceValidator {
     }
 
     private void validateChoice(String choice) {
-        if (!choice.equalsIgnoreCase(YES.getValue()) && !choice.equalsIgnoreCase(NO.getValue())) {
+        if (!choice.equals(YES.getValue()) && !choice.equals(NO.getValue())) {
             throw new InvalidInputException(INVALID_INPUT_FORMAT.getMessage());
         }
     }

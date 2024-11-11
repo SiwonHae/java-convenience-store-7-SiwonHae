@@ -7,8 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("PromotionChoiceValidator 검증 테스트")
-class PromotionChoiceValidatorTest {
-    private final PromotionChoiceValidator validator = new PromotionChoiceValidator();
+class ChoiceValidatorTest {
+    private final ChoiceValidator validator = new ChoiceValidator();
 
     @DisplayName("잘못된 형식의 상품 구입에 대한 예외 처리")
     @ValueSource(strings = {"", "     ", "love", "123"})

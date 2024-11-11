@@ -14,12 +14,12 @@ import store.model.OrderProduct;
 import store.model.Product;
 import store.model.Products;
 import store.model.Promotion;
+import store.validator.ChoiceValidator;
 import store.validator.OrderValidator;
-import store.validator.PromotionChoiceValidator;
 
 @DisplayName("OrderService 기능 테스트")
 class OrderServiceTest {
-    private final OrderService orderService = new OrderService(new OrderValidator(), new PromotionChoiceValidator());
+    private final OrderService orderService = new OrderService(new OrderValidator(), new ChoiceValidator());
 
     private Promotion activePromotion;
     private Promotion inActivePromotion;

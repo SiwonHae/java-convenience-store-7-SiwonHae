@@ -7,8 +7,8 @@ import store.model.Product;
 import store.model.Products;
 import store.model.Promotion;
 import store.model.Receipt;
+import store.validator.ChoiceValidator;
 import store.validator.OrderValidator;
-import store.validator.PromotionChoiceValidator;
 import store.view.OutputView;
 import store.view.io.ProductLoader;
 import store.view.io.PromotionLoader;
@@ -17,7 +17,7 @@ public class StoreService {
     private final OrderService orderService;
 
     public StoreService(OrderService orderService) {
-        this.orderService = new OrderService(new OrderValidator(), new PromotionChoiceValidator());
+        this.orderService = new OrderService(new OrderValidator(), new ChoiceValidator());
     }
 
     public Receipt order(List<OrderProduct> orderProducts, Products products) {
