@@ -35,6 +35,10 @@ public class OutputView {
     private OutputView() {
     }
 
+    public static void printNewLine() {
+        printMessage();
+    }
+
     public static void printWelcome() {
         printMessage(PRINT_WELCOME.getMessage());
     }
@@ -85,7 +89,7 @@ public class OutputView {
     }
 
     private static void printReceiptOrderInfo(Receipt receipt) {
-        for (OrderInfo orderInfo : receipt.orderInfo()) {
+        for (OrderInfo orderInfo : receipt.orderInfos()) {
             printMessage(RECEIPT_INFO_FORMAT.getMessage(), orderInfo.productName(), orderInfo.quantity(),
                     orderInfo.price());
         }
@@ -93,7 +97,7 @@ public class OutputView {
 
     private static void printReceiptPromotionInfo(Receipt receipt) {
         printMessage(RECEIPT_PROMOTION.getMessage());
-        for (PromotionInfo promotionInfo : receipt.promotionInfo()) {
+        for (PromotionInfo promotionInfo : receipt.promotionInfos()) {
             printMessage(RECEIPT_PROMOTION_FORMAT.getMessage(), promotionInfo.productName(),
                     promotionInfo.bonusQuantity());
         }
@@ -101,13 +105,13 @@ public class OutputView {
 
     private static void printReceiptPriceInfo(Receipt receipt) {
         printMessage(RECEIPT_DIVIDER.getMessage());
-        printMessage(RECEIPT_INFO_FORMAT.getMessage(), TOTAL_PRICE, receipt.getTotalQuantity(),
-                receipt.priceInfo().totalPrice());
+        printMessage(RECEIPT_INFO_FORMAT.getMessage(), TOTAL_PRICE, receipt.getTotalOrderQuantity(),
+                receipt.priceInfo().getTotalPrice().price());
         printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), PROMOTION_DISCOUNT,
-                HYPHEN.getValue() + formatInteger(receipt.getTotalPromotionPrice()));
+                HYPHEN.getValue() + formatInteger(receipt.priceInfo().getPromotionPrice().price()));
         printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), MEMBERSHIP_DISCOUNT,
-                HYPHEN.getValue() + formatInteger(receipt.getMembershipPrice()));
-        printMessage(RECEIPT_PAY_PRICE_FORMAT.getMessage(), PAY_PRICE, receipt.getPayPrice());
+                HYPHEN.getValue() + formatInteger(receipt.priceInfo().getMembershipPrice().price()));
+        printMessage(RECEIPT_PAY_PRICE_FORMAT.getMessage(), PAY_PRICE, receipt.priceInfo().getPayPrice().price());
     }
 
     public static void printErrorMessage(String message) {

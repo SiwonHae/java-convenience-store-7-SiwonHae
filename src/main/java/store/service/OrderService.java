@@ -43,10 +43,10 @@ public class OrderService {
 
     private boolean requestPromotion(OrderProduct orderProduct, Product promotionProduct) {
         boolean addPromotion = true;
-        if (isPromotionActive(promotionProduct) && promotionProduct.getPromotion()
-                .calculateQuantityForPromotion(orderProduct.getQuantity())) {
-            if (!(promotionProduct.getQuantity() > orderProduct.getQuantity() &&
-                    choicePromotion(orderProduct.getProductName()))) {
+        if (isPromotionActive(promotionProduct)
+                && promotionProduct.getPromotion().calculateQuantityForPromotion(orderProduct.getQuantity())
+                && promotionProduct.getQuantity() > orderProduct.getQuantity()) {
+            if (!choicePromotion(orderProduct.getProductName())) {
                 return false;
             }
             orderProduct.increaseQuantity();
@@ -75,6 +75,7 @@ public class OrderService {
         }
         int bonusQuantity = promotionProduct.getPromotion()
                 .calculateBonusQuantity(shortageQuantity - decreasedQuantity);
+
         addPromotionInfo(promotionProduct, checkAddPromotion(addPromotion, bonusQuantity), promotionInfos);
         return decreasedQuantity;
     }
