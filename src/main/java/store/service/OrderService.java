@@ -74,8 +74,7 @@ public class OrderService {
             return updateOrderQuantity;
         }
         int bonusQuantity = promotionProduct.getPromotion()
-                .calculateBonusQuantity(
-                        updateOrderQuantity - remainQuantityAfterPromotion, promotionProduct.getQuantity());
+                .calculateBonusQuantity(updateOrderQuantity - remainQuantityAfterPromotion);
         addPromotionInfo(promotionProduct, checkAddPromotion(promotionProduct, addPromotion, bonusQuantity),
                 promotionInfos);
         return remainQuantityAfterPromotion;
@@ -86,7 +85,7 @@ public class OrderService {
         if (promotionProduct != null && orderQuantity >= promotionProduct.getQuantity()) {
             int shortageQuantity = promotionProduct.getPromotion()
                     .calculateNonPromotionQuantity(orderQuantity, promotionProduct.getQuantity());
-            if (!choiceRegularPrice(promotionProduct.getName(), shortageQuantity)) {
+            if (shortageQuantity != MIN_QUANTITY && !choiceRegularPrice(promotionProduct.getName(), shortageQuantity)) {
                 orderQuantity -= shortageQuantity;
             }
         }
@@ -132,7 +131,7 @@ public class OrderService {
     }
 
     private void addPromotionInfo(Product promotionProduct, int bonusQuantity, List<PromotionInfo> promotionInfos) {
-        if (bonusQuantity > 0) {
+        if (bonusQuantity > MIN_QUANTITY) {
             Promotion promotion = promotionProduct.getPromotion();
             promotionInfos.add(
                     new PromotionInfo(promotionProduct.getName(), bonusQuantity, promotionProduct.getPrice(),

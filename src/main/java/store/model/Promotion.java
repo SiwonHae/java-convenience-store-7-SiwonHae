@@ -31,17 +31,14 @@ public class Promotion {
         return !today.isBefore(startDate) && !today.isAfter(endDate);
     }
 
-    public int calculateBonusQuantity(int orderQuantity, int promotionQuantity) {
+    public int calculateBonusQuantity(int orderQuantity) {
         if (buy == 0 || get == 0 || orderQuantity < buy) {
             return 0;
         }
         int bonusQuantity = orderQuantity / (buy + get);
         int remainQuantity = orderQuantity % (buy + get);
-        if (remainQuantity >= buy) {
+        if (remainQuantity > buy) {
             bonusQuantity += get;
-        }
-        if (bonusQuantity + orderQuantity > promotionQuantity) {
-            return 0;
         }
         return bonusQuantity;
     }
