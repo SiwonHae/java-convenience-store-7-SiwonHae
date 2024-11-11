@@ -8,13 +8,13 @@ public enum ViewMessage {
     INPUT_MEMBERSHIP_CHOICE("멤버십 할인을 받으시겠습니까? (Y/N)"),
     INPUT_EXTRA_BUY("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)"),
     RECEIPT_PREFIX("==============W 편의점================"),
-    RECEIPT_INFO_HEADER_FORMAT("%-15s%-6s%10s"),
-    RECEIPT_INFO_FORMAT("%-15s%-6d%,10d"),
-    RECEIPT_PROMOTION("=============증\t정==============="),
-    RECEIPT_PROMOTION_FORMAT("%-15s%-6d"),
+    RECEIPT_INFO_HEADER_FORMAT("%-19s%-10s%-10s"),
+    RECEIPT_INFO_FORMAT("%-19s%-10d%,-10d"),
+    RECEIPT_PROMOTION("=============증     정==============="),
+    RECEIPT_PROMOTION_FORMAT("%-19s%-10d"),
     RECEIPT_DIVIDER("===================================="),
-    RECEIPT_DISCOUNT_FORMAT("%-15s%16s"),
-    RECEIPT_PAY_PRICE_FORMAT("%-15s%,16d"),
+    RECEIPT_DISCOUNT_FORMAT("%-19s%-10s%-10s"),
+    RECEIPT_PAY_PRICE_FORMAT("%-19s%-10s%,-10d"),
     LOCALE_INTEGER("%,d");
 
     private final String message;

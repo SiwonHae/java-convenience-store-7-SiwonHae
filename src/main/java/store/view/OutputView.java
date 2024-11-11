@@ -31,6 +31,7 @@ public class OutputView {
     private static final String PROMOTION_DISCOUNT = "행사할인";
     private static final String MEMBERSHIP_DISCOUNT = "멤버십할인";
     private static final String PAY_PRICE = "내실돈";
+    private static final String EMPTY = "";
 
     private OutputView() {
     }
@@ -105,13 +106,14 @@ public class OutputView {
 
     private static void printReceiptPriceInfo(Receipt receipt) {
         printMessage(RECEIPT_DIVIDER.getMessage());
-        printMessage(RECEIPT_INFO_FORMAT.getMessage(), TOTAL_PRICE, receipt.getTotalOrderQuantity(),
-                receipt.priceInfo().getTotalPrice().price());
-        printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), PROMOTION_DISCOUNT,
+        printMessage(RECEIPT_INFO_FORMAT.getMessage(), TOTAL_PRICE,
+                receipt.getTotalOrderQuantity(), receipt.priceInfo().getTotalPrice().price());
+        printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), PROMOTION_DISCOUNT, EMPTY,
                 HYPHEN.getValue() + formatInteger(receipt.priceInfo().getPromotionPrice().price()));
-        printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), MEMBERSHIP_DISCOUNT,
+        printMessage(RECEIPT_DISCOUNT_FORMAT.getMessage(), MEMBERSHIP_DISCOUNT, EMPTY,
                 HYPHEN.getValue() + formatInteger(receipt.priceInfo().getMembershipPrice().price()));
-        printMessage(RECEIPT_PAY_PRICE_FORMAT.getMessage(), PAY_PRICE, receipt.priceInfo().getPayPrice().price());
+        printMessage(RECEIPT_PAY_PRICE_FORMAT.getMessage(), PAY_PRICE, EMPTY,
+                receipt.priceInfo().getPayPrice().price());
     }
 
     public static void printErrorMessage(String message) {
