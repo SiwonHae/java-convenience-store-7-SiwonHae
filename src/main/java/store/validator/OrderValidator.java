@@ -6,7 +6,6 @@ import store.exception.InvalidInputException;
 import store.model.Product;
 
 public class OrderValidator {
-
     public void validate(Product promotionProduct, Product nonPromotionProduct, int quantity) {
         int totalQuantity = calculateTotalQuantity(promotionProduct, nonPromotionProduct);
         validateStock(totalQuantity, quantity);
@@ -28,5 +27,4 @@ public class OrderValidator {
             throw new InvalidInputException(EXCEED_STOCK_QUANTITY.getMessage());
         }
     }
-
 }
