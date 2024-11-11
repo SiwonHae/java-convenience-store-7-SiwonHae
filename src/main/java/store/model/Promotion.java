@@ -40,11 +40,11 @@ public class Promotion {
         if (remainQuantity >= buy) {
             bonusQuantity += get;
         }
-        
+
         return bonusQuantity;
     }
 
-    public boolean calculateQuantityForPromotion(int orderQuantity) {
+    public boolean canReceivePromotion(int orderQuantity) {
         if (buy == 0 || get == 0) {
             return false;
         }

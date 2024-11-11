@@ -5,7 +5,7 @@ import static store.view.ViewMessage.INPUT_BUY_PRODUCT;
 import static store.view.ViewMessage.INPUT_EXTRA_BUY;
 import static store.view.ViewMessage.INPUT_MEMBERSHIP_CHOICE;
 import static store.view.ViewMessage.INPUT_PROMOTION_CHOICE;
-import static store.view.ViewMessage.INPUT_SHORTAGE_STOCK_CHOICE;
+import static store.view.ViewMessage.INPUT_SHORTAGE_QUANTITY_CHOICE;
 import static store.view.ViewMessage.LOCALE_INTEGER;
 import static store.view.ViewMessage.PRINT_WELCOME;
 import static store.view.ViewMessage.RECEIPT_DISCOUNT_FORMAT;
@@ -61,9 +61,9 @@ public class OutputView {
         printMessage(INPUT_PROMOTION_CHOICE.getMessage(), productName);
     }
 
-    public static void printReadShortageStockChoice(String productName, int shortageQuantity) {
+    public static void printReadShortageQuantityChoice(String productName, int shortageQuantity) {
         printMessage();
-        printMessage(INPUT_SHORTAGE_STOCK_CHOICE.getMessage(), productName, shortageQuantity);
+        printMessage(INPUT_SHORTAGE_QUANTITY_CHOICE.getMessage(), productName, shortageQuantity);
     }
 
     public static void printReadMembershipChoice() {

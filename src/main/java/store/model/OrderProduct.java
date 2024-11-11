@@ -24,8 +24,8 @@ public class OrderProduct {
         return quantity;
     }
 
-    public void increaseQuantity() {
-        this.quantity++;
+    public void increaseQuantity(int quantity) {
+        this.quantity += quantity;
     }
 
     public void setQuantity(int quantity) {

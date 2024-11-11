@@ -16,8 +16,8 @@ public class InputView {
         return Console.readLine();
     }
 
-    public static String readShortageStockChoice(String productName, int shortageQuantity) {
-        OutputView.printReadShortageStockChoice(productName, shortageQuantity);
+    public static String readShortageQuantityChoice(String productName, int shortageQuantity) {
+        OutputView.printReadShortageQuantityChoice(productName, shortageQuantity);
         return Console.readLine();
     }
 
