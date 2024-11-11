@@ -23,12 +23,19 @@ public class StoreController {
         if (products == null) {
             return;
         }
-        do {
-            OutputView.printWelcome();
-            OutputView.printProductList(products.products());
-            Receipt receipt = order(products);
-            OutputView.printReceipt(receipt);
-        } while (storeService.isExtraBuy());
+
+        processOrder(products);
+        while (storeService.isExtraBuy()) {
+            OutputView.printNewLine();
+            processOrder(products);
+        }
+    }
+
+    private void processOrder(Products products) {
+        OutputView.printWelcome();
+        OutputView.printProductList(products.products());
+        Receipt receipt = order(products);
+        OutputView.printReceipt(receipt);
     }
 
     private Products initializeStore() {
