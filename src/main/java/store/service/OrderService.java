@@ -146,30 +146,48 @@ public class OrderService {
         return bonusQuantity;
     }
 
-    private boolean choiceOption(String choice) {
+    private boolean choicePromotion(String productName) {
         try {
+            String choice = InputView.readPromotionChoice(productName);
             choiceValidator.validate(choice);
             return choice.equals(YES.getValue());
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
-            return choiceOption(choice);
+            return choicePromotion(productName);
         }
     }
 
-    private boolean choicePromotion(String productName) {
-        return choiceOption(InputView.readPromotionChoice(productName));
-    }
-
     private boolean choiceRegularPrice(String productName, int shortageQuantity) {
-        return choiceOption(InputView.readShortageQuantityChoice(productName, shortageQuantity));
+        try {
+            String choice = InputView.readShortageQuantityChoice(productName, shortageQuantity);
+            choiceValidator.validate(choice);
+            return choice.equals(YES.getValue());
+        } catch (IllegalArgumentException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            return choiceRegularPrice(productName, shortageQuantity);
+        }
     }
 
     private boolean choiceMembership() {
-        return choiceOption(InputView.readMembershipChoice());
+        try {
+            String choice = InputView.readMembershipChoice();
+            choiceValidator.validate(choice);
+            return choice.equals(YES.getValue());
+        } catch (IllegalArgumentException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            return choiceMembership();
+        }
     }
 
     public boolean choiceExtraBuy() {
-        return choiceOption(InputView.readExtraBuy());
+        try {
+            String choice = InputView.readExtraBuy();
+            choiceValidator.validate(choice);
+            return choice.equals(YES.getValue());
+        } catch (IllegalArgumentException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            return choiceExtraBuy();
+        }
     }
 
     private boolean isPromotionActive(Product promotionProduct) {
