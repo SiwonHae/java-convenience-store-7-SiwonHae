@@ -43,9 +43,13 @@ public class OrderService {
     private void processOrder(OrderProduct orderProduct, Product promotionProduct, Product nonPromotionProduct,
                               List<OrderInfo> orderInfos, List<PromotionInfo> promotionInfos) {
         boolean addPromotion = tryApplyPromotion(orderProduct, promotionProduct);
-        int remainQuantityAfterPromotion = processPromotionQuantity(promotionProduct, promotionInfos, orderProduct,
-                addPromotion);
+        int remainQuantityAfterPromotion = orderProduct.getQuantity();
+        if (isPromotionActive(promotionProduct)) {
+            remainQuantityAfterPromotion = processPromotionQuantity(promotionProduct, promotionInfos, orderProduct,
+                    addPromotion);
+        }
         processNonPromotionQuantity(nonPromotionProduct, remainQuantityAfterPromotion, promotionProduct);
+
         addOrderInfo(orderInfos, orderProduct, nonPromotionProduct);
     }
 
