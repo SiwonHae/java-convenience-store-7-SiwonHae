@@ -59,7 +59,7 @@ class OrderServiceTest {
         Product product1 = new Product("콜라", 1000, 10, activePromotion);
         Product product2 = new Product("콜라", 1000, 10, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12, products));
 
         setupInput("Y\nY\n");
 
@@ -78,7 +78,7 @@ class OrderServiceTest {
         Product product1 = new Product("콜라", 1000, 10, inActivePromotion);
         Product product2 = new Product("콜라", 1000, 10, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 12, products));
 
         setupInput("Y\nY\n");
 
@@ -105,7 +105,7 @@ class OrderServiceTest {
         Product product1 = new Product("오렌지주스", 1800, 9, activePromotion);
         Product product2 = new Product("오렌지주스", 1800, 0, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("오렌지주스", 1));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("오렌지주스", 1, products));
 
         setupInput("Y\nY\n");
 
@@ -132,7 +132,7 @@ class OrderServiceTest {
         Product product1 = new Product("오렌지주스", 1800, 9, activePromotion);
         Product product2 = new Product("오렌지주스", 1800, 0, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("오렌지주스", 1));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("오렌지주스", 1, products));
 
         setupInput("N\nY\n");
 
@@ -152,7 +152,7 @@ class OrderServiceTest {
         Product product1 = new Product("콜라", 1000, 7, activePromotion);
         Product product2 = new Product("콜라", 1000, 10, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 10));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 10, products));
 
         setupInput("Y\nY\n");
 
@@ -172,7 +172,7 @@ class OrderServiceTest {
         Product product1 = new Product("콜라", 1000, 7, activePromotion);
         Product product2 = new Product("콜라", 1000, 10, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 10));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 10, products));
 
         setupInput("N\nY\n");
 

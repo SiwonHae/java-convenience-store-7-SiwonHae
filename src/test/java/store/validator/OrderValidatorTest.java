@@ -29,7 +29,7 @@ class OrderValidatorTest {
         Product product1 = new Product("콜라", 1000, 10, promotion);
         Product product2 = new Product("콜라", 1000, 10, null);
         Products products = new Products(List.of(product1, product2));
-        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 30));
+        List<OrderProduct> orderProducts = List.of(new OrderProduct("콜라", 30, products));
 
         // when
         Product promotionProduct = products.findProductWithPromotion(orderProducts.get(0).getProductName());

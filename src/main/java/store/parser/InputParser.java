@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import store.model.OrderProduct;
+import store.model.Products;
 
 public class InputParser {
     private static final String EMPTY = "";
@@ -27,9 +28,9 @@ public class InputParser {
         return Double.parseDouble(input);
     }
 
-    public static List<OrderProduct> parseOrderProducts(String input) {
+    public static List<OrderProduct> parseOrderProducts(String input, Products products) {
         String[] productStrings = splitOrderProducts(input);
-        return createOrderProducts(productStrings);
+        return createOrderProducts(productStrings, products);
     }
 
     private static String[] splitOrderProducts(String input) {
@@ -38,18 +39,18 @@ public class InputParser {
                 .split(COMMA.getValue());
     }
 
-    private static List<OrderProduct> createOrderProducts(String[] productsInfo) {
+    private static List<OrderProduct> createOrderProducts(String[] productsInfo, Products products) {
         List<OrderProduct> orderProducts = new ArrayList<>();
         for (String productInfo : productsInfo) {
-            orderProducts.add(createOrderProduct(productInfo));
+            orderProducts.add(createOrderProduct(productInfo, products));
         }
         return orderProducts;
     }
 
-    private static OrderProduct createOrderProduct(String productInfo) {
+    private static OrderProduct createOrderProduct(String productInfo, Products products) {
         String[] product = productInfo.split(HYPHEN.getValue());
         String productName = product[PRODUCT_NAME_INDEX].trim();
         int quantity = Integer.parseInt(product[QUANTITY_INDEX].trim());
-        return new OrderProduct(productName, quantity);
+        return new OrderProduct(productName, quantity, products);
     }
 }

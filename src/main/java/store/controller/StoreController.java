@@ -46,7 +46,7 @@ public class StoreController {
         String inputItem = InputView.readProduct();
         try {
             orderProductValidator.validate(inputItem);
-            return storeService.order(parseOrderProducts(inputItem), products);
+            return storeService.order(parseOrderProducts(inputItem, products), products);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
             return order(products);
