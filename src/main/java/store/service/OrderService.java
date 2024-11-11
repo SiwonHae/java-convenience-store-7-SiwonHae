@@ -74,7 +74,8 @@ public class OrderService {
             return updateOrderQuantity;
         }
         int bonusQuantity = promotionProduct.getPromotion()
-                .calculateBonusQuantity(updateOrderQuantity - remainQuantityAfterPromotion);
+                .calculateBonusQuantity(
+                        updateOrderQuantity - remainQuantityAfterPromotion, promotionProduct.getQuantity());
         addPromotionInfo(promotionProduct, checkAddPromotion(promotionProduct, addPromotion, bonusQuantity),
                 promotionInfos);
         return remainQuantityAfterPromotion;
