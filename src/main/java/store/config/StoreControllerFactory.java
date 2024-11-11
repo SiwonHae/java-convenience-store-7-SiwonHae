@@ -9,9 +9,9 @@ import store.validator.OrderValidator;
 
 public class StoreControllerFactory {
     public static StoreController create() {
-        return new StoreController(
-                new OrderProductValidator(),
-                new StoreService(new OrderService(new OrderValidator(), new ChoiceValidator()))
-        );
+        OrderProductValidator orderProductValidator = new OrderProductValidator();
+        OrderService orderService = new OrderService(new OrderValidator(), new ChoiceValidator());
+        StoreService storeService = new StoreService(orderService);
+        return new StoreController(orderProductValidator, storeService);
     }
 }
