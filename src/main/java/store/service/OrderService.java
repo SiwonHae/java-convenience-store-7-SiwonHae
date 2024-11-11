@@ -75,16 +75,15 @@ public class OrderService {
         }
         int bonusQuantity = promotionProduct.getPromotion()
                 .calculateBonusQuantity(shortageQuantity - decreasedQuantity);
-
-        addPromotionInfo(promotionProduct, checkAddPromotion(addPromotion, bonusQuantity), promotionInfos);
+        addPromotionInfo(promotionProduct, checkAddPromotion(promotionProduct, addPromotion, bonusQuantity),
+                promotionInfos);
         return decreasedQuantity;
     }
 
-    private int checkAddPromotion(boolean addPromotion, int bonusQuantity) {
+    private int checkAddPromotion(Product promotionProduct, boolean addPromotion, int bonusQuantity) {
         if (!addPromotion) {
-            bonusQuantity -= 1;
+            bonusQuantity -= promotionProduct.getPromotion().getGet();
         }
-
         return bonusQuantity;
     }
 
