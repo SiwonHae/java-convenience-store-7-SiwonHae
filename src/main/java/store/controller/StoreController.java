@@ -43,14 +43,13 @@ public class StoreController {
     }
 
     private Receipt order(Products products) {
-        while (true) {
-            try {
-                String inputItem = InputView.readProduct();
-                orderProductValidator.validate(inputItem);
-                return storeService.order(parseOrderProducts(inputItem), products);
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
+        String inputItem = InputView.readProduct();
+        try {
+            orderProductValidator.validate(inputItem);
+            return storeService.order(parseOrderProducts(inputItem), products);
+        } catch (IllegalArgumentException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            return order(products);
         }
     }
 }
